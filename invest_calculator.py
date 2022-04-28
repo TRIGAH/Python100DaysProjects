@@ -1,4 +1,4 @@
-#Recieve a LOAN in 30 Minutes
+#Invest
 print("Welcome to Pristin Capital Limited where you INVEST and get massive returns.")
 
 #Princicapal
