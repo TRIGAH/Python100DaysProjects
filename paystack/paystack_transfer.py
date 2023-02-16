@@ -14,8 +14,10 @@ verify_details = {
 }
 verify_url="https://api.paystack.co/bank/resolve"
 verify = requests.get(verify_url,headers=headers,params=verify_details)
+print(verify)
 if verify.status_code == 200:
     bank_details = verify.json()["data"]
+    # print(bank_details)
     create_recepient_details = { 
         "type": "nuban",
         "name": bank_details["account_name"],
@@ -27,7 +29,9 @@ if verify.status_code == 200:
     # Create a recepeint for transfer
     create_url="https://api.paystack.co/transferrecipient"
     create = requests.post(create_url,headers=headers,data=json.dumps(create_recepient_details))
+    print(create)
     recepient_details = create.json()["data"]
+    print(recepient_details["details"]["account_number"])
     transfer_details ={
         "source": "balance",
         "amount": "1500",
