@@ -28,5 +28,4 @@ while is_game_on:
 
     segments[0].forward(20)  
     segments[0].left(90)   
-# "Please commmit"
 screen.exitonclick()
