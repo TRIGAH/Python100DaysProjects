@@ -14,6 +14,7 @@ class Ball(Turtle):
         self.y_move = 10
         self.y_random = random.randint(0,600)
         self.x_random = random.randint(0,800)
+        self.move_speed = 0.1
 
 
     def move(self):
@@ -26,7 +27,9 @@ class Ball(Turtle):
 
     def x_bounce(self):
         self.x_move *= -1
+        self.move_speed *= 0.9
 
     def resetposition(self):
         self.goto(0,0)
-        self.x_bounce()    
+        self.x_bounce()   
+        self.move_speed = 0.1 

@@ -25,7 +25,7 @@ screen.onkey(l_paddle.down,"s")
 
 is_pong_on = True
 while is_pong_on:
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
