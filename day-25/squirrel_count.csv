@@ -1,0 +1,37 @@
+,Fur Color,count
+0,Gray,"1       Gray
+3       Gray
+5       Gray
+6       Gray
+7       Gray
+        ... 
+3016    Gray
+3018    Gray
+3019    Gray
+3020    Gray
+3021    Gray
+Name: Primary Fur Color, Length: 2473, dtype: object"
+1,Cinnamon,"2       Cinnamon
+11      Cinnamon
+18      Cinnamon
+25      Cinnamon
+26      Cinnamon
+          ...   
+2997    Cinnamon
+3002    Cinnamon
+3003    Cinnamon
+3017    Cinnamon
+3022    Cinnamon
+Name: Primary Fur Color, Length: 392, dtype: object"
+2,Black,"41      Black
+49      Black
+98      Black
+129     Black
+180     Black
+        ...  
+2908    Black
+2973    Black
+2974    Black
+2984    Black
+2998    Black
+Name: Primary Fur Color, Length: 103, dtype: object"
