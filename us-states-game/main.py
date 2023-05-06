@@ -15,14 +15,10 @@ states=us_states_data.state.to_list()
 while len(correct_states_guess) < 50:
     state_guess=screen.textinput(title=f"{len(correct_states_guess)}/50 States Correct", prompt="What's another state's name?")
     titled_state_guess = state_guess.title()
+
     if titled_state_guess == "Exit":
-        for c_state in correct_states_guess:
-           if c_state in states:
-                states.remove(c_state)
-        # missed_states = {
-        #     "Missed States":states
-        # }
-        df = pandas.DataFrame(states)
+        missed_states = [state for state in states if state not in correct_states_guess]
+        df = pandas.DataFrame(missed_states)
         df.to_csv("us-states-game\\states_to_learn.csv")
         break
     if titled_state_guess in states:
@@ -35,7 +31,4 @@ while len(correct_states_guess) < 50:
             state_turtle.write(titled_state_guess)
 
 
-
-# states_x=us_states_data.x.to_list()
-# states_y=us_states_data.y.to_list()
 
