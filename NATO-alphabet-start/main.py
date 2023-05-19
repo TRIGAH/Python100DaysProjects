@@ -28,9 +28,15 @@ nato_phonetic_dict = {row.letter:row.code for (index,row) in data.iterrows()}
 print(nato_phonetic_dict)
 
 #TODO 2. Create a list of the phonetic code words from a word that the user inputs.
-name = input("Enter your name: ").upper()
+def generate_phonetic():
+    name = input("Enter a word: ").upper()
+    try:
+        nato_name = [ nato_phonetic_dict[letter] for letter in name]
+    except KeyError:
+        print("Sorry, only letters in the alphabets please.")
+        generate_phonetic()
+    else:        
+       print(nato_name)
 
-nato_name = [ nato_phonetic_dict[letter] for letter in name]
-print(nato_name)
-
+generate_phonetic()
 
