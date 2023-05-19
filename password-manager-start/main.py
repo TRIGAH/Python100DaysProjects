@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import pyperclip
 import random
-
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -24,18 +24,53 @@ def generate_password():
     password_entry.insert(0,password)
     pyperclip.copy(password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("password-manager-start\\data.json","r") as password_data:
+            data=json.load(password_data)
+    except FileNotFoundError:   
+        messagebox.showerror(title="404", message=f"No data file found ")     
+    else:
+        for web in data:
+            if web.lower() == website.lower():
+               messagebox.showinfo(title=f"{website}", message=f"Username:  {data[web]['username']}\n  Password:  {data[web]['password']}\n")
+            else:
+               messagebox.showerror(title="404", message=f"No details for the website {website} exists ") 
+    finally:
+        website_entry.delete(0,END)
+
+
 
 def save():
     website = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
+
+    website_data = {
+         website : {
+              "username":username,
+              "password":password
+         }
+    }
     if len(website)==0 and len(password) == 0 :
         messagebox.showerror(title="Oops", message="Website or Username field cannot be empty.")
     else:
-        is_ok=messagebox.askokcancel(title = website , message = f"These are the details you entered:\n Username: {username} \n Password: {password} \n Is it Ok to Save?")
-        if is_ok:
-            with open("password-manager-start\\data.txt","a") as password_data:
-                password_data.write(f"{website} | {username} | {password} \n")
+            try: 
+                with open("password-manager-start\\data.json","r") as password_data:
+                    data=json.load(password_data)
+                    data.update(website_data)
+            except json.decoder.JSONDecodeError:      
+                with open("password-manager-start\\data.json","w") as password_data:
+                    json.dump(website_data,password_data)
+            except FileNotFoundError:      
+                with open("password-manager-start\\data.json","w") as password_data:
+                    json.dump(website_data,password_data)
+            else:        
+                with open("password-manager-start\\data.json","w") as password_data:
+                    json.dump(data,password_data,indent=4)     
+
+        
                 website_entry.delete(0,END)
                 username_entry.delete(0,END)
                 password_entry.delete(0,END)
@@ -69,12 +104,15 @@ password_label = Label(text="Password: ")
 password_label.grid(column=0,row=3)
 
 password_entry = Entry(width=21)
-password_entry.grid(column=1,row=3)
+password_entry.grid(column=1,row=3 , columnspan=2)
+
+generate_button_label = Button(text="Search",command=find_password)
+generate_button_label.grid(column=3,row=1)
 
 generate_button_label = Button(text="Generate Password",command=generate_password)
-generate_button_label.grid(column=2,row=3)
+generate_button_label.grid(column=2,row=3,columnspan=2)
  
 add_button_label = Button(width=36,text="Add",command=save)
-add_button_label.grid(column=1,row=4,columnspan=2)
+add_button_label.grid(column=0,row=4,columnspan=4)
 
 window.mainloop()
