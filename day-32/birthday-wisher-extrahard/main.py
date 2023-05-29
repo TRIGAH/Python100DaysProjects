@@ -24,5 +24,3 @@ for x in range(1,4):
 # 4. Send the letter generated in step 3 to that person's email address.
 
 
-
-
