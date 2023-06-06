@@ -37,10 +37,10 @@ print(yesterday_stock_close_price)
 print(day_before_yesterday_stock_close_price)
 
 def get_percentage_increase(num_a, num_b):
-    return round(((num_a - num_b) / num_b) * 100)
+    return abs(((num_a - num_b) / num_b) * 100)
 
 percent=get_percentage_increase(float(yesterday_stock_close_price), float(day_before_yesterday_stock_close_price))
-
+print(get_percentage_increase(1568.3600,1643.0000))
 ## STEP 2: Use https://newsapi.org
 # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
 
@@ -62,20 +62,20 @@ description=stock_news_data["description"]
 proxy_client = TwilioHttpClient()
 # proxy_client.session.proxies = {'https': os.environ['https_proxy']}
 
-client = Client(account_sid, auth_token, http_client=proxy_client)
-message = client.messages \
-    .create(
-    body=
+# client = Client(account_sid, auth_token, http_client=proxy_client)
+# message = client.messages \
+#     .create(
+#     body=
     
-    f"""
-    {STOCK}: 🔺{percent}%
-    Headline: Were Hedge Funds Right About Piling Into {COMPANY_NAME}. ({STOCK})?. 
-    Brief: {description}.
-    """,
-    from_="+13613091765",
-    to="+2348172829491"
-)
-print(message.status)
+#     f"""
+#     {STOCK}: 🔺{percent}%
+#     Headline: Were Hedge Funds Right About Piling Into {COMPANY_NAME}. ({STOCK})?. 
+#     Brief: {description}.
+#     """,
+#     from_="+13613091765",
+#     to="+2348172829491"
+# )
+# print(message.status)
 #Optional: Format the SMS message like this: 
 """
 TSLA: 🔺2%
