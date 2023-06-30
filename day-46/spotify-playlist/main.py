@@ -6,9 +6,6 @@ import pprint
 from spotipy.oauth2 import SpotifyOAuth,SpotifyClientCredentials
 
 
-CLIENT_ID = "7b47cfefeea54081a45d28ecc312f78c"
-CLIENT_SECRET = "ea0deaebb3844f419deccee76cd05a91"
-
 playlist_date = input("Which Year do you want to Travel to? Type the Date in this format YYYY-MM-DD: ")
 SPOTIFY_URL = f"https://www.billboard.com/charts/hot-100/{playlist_date}"
 
