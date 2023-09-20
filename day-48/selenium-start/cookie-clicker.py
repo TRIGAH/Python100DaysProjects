@@ -12,38 +12,38 @@ chrome_options.add_argument(f'user-agent={user_agent}')
 chrome_service = Service(chrome_driver_path)
 browser = webdriver.Chrome(service=chrome_service, options=chrome_options)
 browser.get("http://orteil.dashnet.org/experiments/cookie/")
-timeout = 60  # [seconds]
+timeout = 300  # [seconds]
 timeout_start = time.time()
 
+cookies_made = browser.find_element(By.CSS_SELECTOR,"#money")
+money = int(cookies_made.text)
+
+cookie_store = browser.find_elements(By.CSS_SELECTOR,"#store div")
+items = [ item.get_attribute("id") for item in cookie_store]
+cookie_store_dict = {}
+
 while time.time() < timeout_start + timeout:
-    test = 0
-    if test == 5:
-        break
     time.sleep(1)
     cookie_maker = browser.find_element(By.ID,'cookie')
     cookie_maker.click()
 
-    cookie_store = browser.find_element(By.CSS_SELECTOR,"#store")
+    for item in items:
+        item_cost = browser.find_element(By.ID,item)
+        if item_cost.text != '':
+            cookie_store_dict[item] = item_cost.text.split('\n')[0].split('-')[1].strip().replace(',','')
+        else:
+            pass  
 
-    cookies_made = browser.find_element(By.CSS_SELECTOR,"#money")
-    money = int(cookies_made.text)
-    print(money)
-
-    cursor = browser.find_element(By.CSS_SELECTOR,"#buyCursor")
-    cursor_cost = int(cursor.text.split('\n')[0].split('-')[1].strip())
-    print(cursor_cost)
-
-    grandma = browser.find_element(By.CSS_SELECTOR,'#buyGrandma')
-    grandma_cost = int(grandma.text.split('\n')[0].split('-')[1].strip())
-    print(grandma_cost)
-
-    if money == cursor_cost:
-        cursor.click()
-    elif money == grandma_cost:
-        grandma.click()    
-    elif money > cursor_cost and money >= grandma_cost:
-        grandma.click()   
-
-
+    for item,price in cookie_store_dict.items():
+        if money == int(cookie_store_dict[item]):
+            upgrade = browser.find_element(By.ID,item)
+            upgrade.click()
+    
 cookies_per_second = browser.find_element(By.ID,"cps")
-print(cookies_per_second.text)        
+print(cookies_per_second.text)    
+
+
+
+
+
+    
