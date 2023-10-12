@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import requests
 
 app = Flask(__name__, static_folder="static")
@@ -28,9 +28,19 @@ def view_post(post_id):
 def about():
     return render_template("about.html")
 
-@app.route('/contact')
+@app.route('/contact',methods=['GET','POST'])
 def contact():
+    if request.method == 'GET':
+       return render_template("contact.html")
+    elif request.method == 'POST':
+        name=request.form['name']
+        email=request.form['email']
+        phone=request.form['phone']
+        message=request.form['message']
+        return render_template("success.html")
     return render_template("contact.html")
+
+  
 
 
 
