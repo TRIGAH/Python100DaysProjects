@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import CreatePostForm,RegisterForm,CommentForm,LoginForm
-from flask_gravatar import Gravatar
+from libgravatar import Gravatar
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -146,8 +146,9 @@ def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
     comments = Comment.query.all()
     comment_form = CommentForm()
-    g=Gravatar("someemail@gmail.com")
-    gravatar_url = g.get_image()
+    g = Gravatar('someemail@gmail.com')
+    gravatar_url=g.get_image()
+    
     if request.method == 'POST':
         comment_text = comment_form.body.data
         new_comment = Comment(text=comment_text,user_id=current_user.get_id(),post_id=requested_post.id)
@@ -179,8 +180,9 @@ def add_new_post():
             title=form.title.data,
             subtitle=form.subtitle.data,
             body=form.body.data,
-            img_url=form.img_url.data,
-            author=current_user,
+            img_url=str(form.img_url.data),
+            author=str(current_user.get_id()),
+            user_id=current_user.get_id(),
             date=date.today().strftime("%B %d, %Y")
         )
         db.session.add(new_post)
@@ -209,7 +211,7 @@ def edit_post(post_id):
         db.session.commit()
         return redirect(url_for("show_post", post_id=post.id))
 
-    return render_template("make-post.html", form=edit_form)
+    return render_template("make-post.html", form=edit_form,is_edit=True)
 
 
 @app.route("/delete/<int:post_id>",methods=['GET','POSt'])
